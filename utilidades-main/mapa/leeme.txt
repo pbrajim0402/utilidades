@@ -1,0 +1,46 @@
+GUÍA RÁPIDA
+
+Cómo usar la Librería de mapas (mapa.c y mapa.h).
+
+NOTA: Si te salen avisos (Warnings) al compilar, ¡Léelos!. Te cuentan cómo quitarlos.
+
+Para que tu juego cargue pantallas o niveles automáticamente desde archivos .dat, sigue los siguientes 5 pasos.
+
+PASO 1: Prepara tu archivo de datos.
+
+Crea un fichero (ej: nivel1.dat) donde todas las filas tengan exactamente el mismo número de caracteres.
+La librería se encargará de medirlo por ti y cargarlo en una matriz en memoria.
+
+PASO 2: Carga el mapa en memoria.
+
+En tu main, llama a la función de carga. Ella reservará el espacio exacto y medirá el ancho y alto. Ejemplo:
+
+  if (cargarMapa("nivel1.dat") == FALSE) {
+    printf("Error: No se pudo cargar el archivo.\n");
+    exit(1);
+  }
+
+PASO 3: "Materializa" la matriz.
+
+Justo después de cargar, usa la macro GENERAR_MAPA para crear tu variable local de tipo matriz. Ejemplo:
+
+    GENERAR_MAPA(tablero); 
+
+    // Ahora "tablero" funcionará como una matriz normal como en "tablero[f][c]".
+
+PASO 4: Usa las dimensiones automáticas.
+
+No inventes números para las filas y columnas, salvo que quieras salvar sus valores.
+La librería ha rellenado por ti las variables globales:
+
+  MAPA_NFILS: Número de filas detectadas.
+  MAPA_NCOLS: Número de columnas detectadas.
+
+  Ejemplo: mostrarMapa(MAPA_NFILS, MAPA_NCOLS, tablero);
+
+PASO 5: Sé un buen programador (Limpia la memoria)
+
+Cuando tu programa vaya a terminar o si vas a cargar un mapa nuevo, libera el anterior para no malgastar memoria RAM. Ejemplo:
+
+  liberarMapa();
+
